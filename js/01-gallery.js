@@ -57,11 +57,18 @@ const toggleScrollOnBody = function () {
 };
 
 const disableScroll = function () {
+  const pagePosition = window.scrollY;
   body.classList.add("disable-scroll");
+  body.dataset.position = pagePosition;
+  body.style.top = -pagePosition + "px";
 };
 
 const enableScroll = function () {
+  const pagePosition = parseInt(body.dataset.position, 10);
+  body.style.top = "auto";
   body.classList.remove("disable-scroll");
+  window.scroll({ top: pagePosition, left: 0 });
+  body.removeAttribute("data-position");
 };
 
 const body = document.body;

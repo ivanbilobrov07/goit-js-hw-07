@@ -3,9 +3,17 @@
   --animation-duration: 250ms;
 }
 
+body {
+  position: relative;
+}
+
 .disable-scroll {
+  position: fixed;
   height: 100vh;
   overflow: hidden;
+  left: 0;
+  top: 0;
+  width: 100%;
 }
 
 .gallery {
