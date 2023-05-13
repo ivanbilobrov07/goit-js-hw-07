@@ -26,34 +26,29 @@ const onGalleryListClick = function (e) {
   }
 
   const img = e.target;
-  const modalOverlay = basicLightbox.create(`
-      <img src="${img.getAttribute("data-source")}" alt="${img.alt}"/>
-  `);
+  const modalOverlay = basicLightbox.create(
+    `<img src="${img.getAttribute("data-source")}" alt="${img.alt}"/>`,
+    {
+      onShow: (instance) => closeModalOnEscape(instance),
+      onClose: () => enableScroll(),
+    }
+  );
 
   modalOverlay.show();
-
-  closeModalOnEscape(modalOverlay);
-  toggleScrollOnBody();
 };
 
-const closeModalOnEscape = function (modalOverlay) {
+const closeModalOnEscape = function (modal) {
   const onModalEscapeClick = function (e) {
     if (e.key !== "Escape") {
       return;
     }
 
     document.removeEventListener("keydown", onModalEscapeClick);
-    modalOverlay.close();
-    enableScroll();
+    modal.close();
   };
 
-  document.addEventListener("keydown", onModalEscapeClick);
-};
-
-const toggleScrollOnBody = function () {
   disableScroll();
-  const overlayRef = document.querySelector(".basicLightbox");
-  overlayRef.addEventListener("click", enableScroll);
+  document.addEventListener("keydown", onModalEscapeClick);
 };
 
 const disableScroll = function () {
